@@ -229,6 +229,8 @@ size_t game::possible_moves(Grid & maze, size_t x, size_t y)
 
 void game::move_snake(Grid & maze, size_t x, size_t y, char dir)
 {
+    int menor_val = 9999;
+    int menor_id = 0;
     if(dir == 'n')
     {
         if( x > 0 )
@@ -237,11 +239,11 @@ void game::move_snake(Grid & maze, size_t x, size_t y, char dir)
             {
                 if(std::find(fdp[level].visited.begin(), fdp[level].visited.end(), std::pair<int, int> {x - 1, y}) == fdp[level].visited.end())
                 {
-                    fdp[level].path.push_front(std::pair<int, int> {x-1, y});
-                    fdp[level].visited.push_front(std::pair<int, int> {x-1, y});
-                    fdp[level].directions.push_front('n');
-                    maze[fdp[level].body.back().first][fdp[level].body.back().second].tipo = Cell::type::free;
-                    return;
+                    if( (abs(x_food_coord - (x - 1)) + abs(y_food_coord - y) ) < menor_val)
+                    {
+                        menor_id = 1;
+                        menor_val = (abs(x_food_coord - (x - 1)) + abs(y_food_coord - y) );
+                    }
                 }
             }
 
@@ -253,13 +255,11 @@ void game::move_snake(Grid & maze, size_t x, size_t y, char dir)
             {
                 if(std::find(fdp[level].visited.begin(), fdp[level].visited.end(), std::pair<int, int> {x, y + 1}) == fdp[level].visited.end())
                 {
-                    fdp[level].path.push_front(std::pair<int, int> {x, y + 1});
-                    fdp[level].visited.push_front(std::pair<int, int> {x, y + 1});
-                    fdp[level].directions.push_front('l');
-                    //maze[x][y].tipo = Cell::type::free;
-                    //maze[x][y + 1].tipo = Cell::type::snake_head;
-                    maze[fdp[level].body.back().first][fdp[level].body.back().second].tipo = Cell::type::free;
-                    return;
+                    if( (abs(x_food_coord - (x)) + abs(y_food_coord - (y + 1) ) ) < menor_val)
+                    {
+                        menor_id = 3;
+                        menor_val = (abs(x_food_coord - (x)) + abs(y_food_coord - (y + 1)) );
+                    }
                 }
             }
         }
@@ -270,13 +270,11 @@ void game::move_snake(Grid & maze, size_t x, size_t y, char dir)
             {
                 if(std::find(fdp[level].visited.begin(), fdp[level].visited.end(), std::pair<int, int> {x, y - 1}) == fdp[level].visited.end())
                 {
-                    fdp[level].path.push_front(std::pair<int, int> {x, y - 1});
-                    fdp[level].visited.push_front(std::pair<int, int> {x, y - 1});
-                    fdp[level].directions.push_front('o');
-                    //maze[x][y].tipo = Cell::type::free;
-                    //maze[x][y - 1].tipo = Cell::type::snake_head;
-                    maze[fdp[level].body.back().first][fdp[level].body.back().second].tipo = Cell::type::free;
-                    return;
+                    if( (abs(x_food_coord - (x)) + abs(y_food_coord - (y - 1) ) < menor_val) )
+                    {
+                        menor_id = 4;
+                        menor_val = (abs(x_food_coord - (x)) + abs(y_food_coord - (y - 1) ) );
+                    }
                 }
             }
         }
@@ -291,13 +289,11 @@ void game::move_snake(Grid & maze, size_t x, size_t y, char dir)
             {
                 if(std::find(fdp[level].visited.begin(), fdp[level].visited.end(), std::pair<int, int> {x + 1, y}) == fdp[level].visited.end())
                 {
-                    fdp[level].path.push_front(std::pair<int, int> {x+1, y});
-                    fdp[level].visited.push_front(std::pair<int, int> {x+1, y});
-                    fdp[level].directions.push_front('s');
-                    //maze[x][y].tipo = Cell::type::free;
-                    //maze[x + 1][y].tipo = Cell::type::snake_head;
-                    maze[fdp[level].body.back().first][fdp[level].body.back().second].tipo = Cell::type::free;
-                    return;
+                    if( (abs(x_food_coord - (x + 1)) + abs(y_food_coord - y) ) < menor_val)
+                    {
+                        menor_id = 2;
+                        menor_val = (abs(x_food_coord - (x + 1)) + abs(y_food_coord - y) );
+                    }
                 }
             }
 
@@ -309,13 +305,11 @@ void game::move_snake(Grid & maze, size_t x, size_t y, char dir)
             {
                 if(std::find(fdp[level].visited.begin(), fdp[level].visited.end(), std::pair<int, int> {x, y + 1}) == fdp[level].visited.end())
                 {
-                    fdp[level].path.push_front(std::pair<int, int> {x, y + 1});
-                    fdp[level].visited.push_front(std::pair<int, int> {x, y + 1});
-                    fdp[level].directions.push_front('l');
-                    //maze[x][y].tipo = Cell::type::free;
-                    //maze[x][y + 1].tipo = Cell::type::snake_head;
-                    maze[fdp[level].body.back().first][fdp[level].body.back().second].tipo = Cell::type::free;
-                    return;
+                    if( (abs(x_food_coord - (x)) + abs(y_food_coord - (y + 1) ) ) < menor_val)
+                    {
+                        menor_id = 3;
+                        menor_val = (abs(x_food_coord - (x)) + abs(y_food_coord - (y + 1)) );
+                    }
                 }
             }
         }
@@ -326,13 +320,11 @@ void game::move_snake(Grid & maze, size_t x, size_t y, char dir)
             {
                 if(std::find(fdp[level].visited.begin(), fdp[level].visited.end(), std::pair<int, int> {x, y - 1}) == fdp[level].visited.end())
                 {
-                    fdp[level].path.push_front(std::pair<int, int> {x, y - 1});
-                    fdp[level].visited.push_front(std::pair<int, int> {x, y - 1});
-                    fdp[level].directions.push_front('o');
-                    //maze[x][y].tipo = Cell::type::free;
-                    //maze[x][y - 1].tipo = Cell::type::snake_head;
-                    maze[fdp[level].body.back().first][fdp[level].body.back().second].tipo = Cell::type::free;
-                    return;
+                    if( (abs(x_food_coord - (x)) + abs(y_food_coord - (y - 1) ) ) < menor_val)
+                    {
+                        menor_id = 4;
+                        menor_val = (abs(x_food_coord - (x)) + abs(y_food_coord - (y - 1)) );
+                    }
                 }
             }
         }
@@ -346,13 +338,11 @@ void game::move_snake(Grid & maze, size_t x, size_t y, char dir)
             {
                 if(std::find(fdp[level].visited.begin(), fdp[level].visited.end(), std::pair<int, int> {x, y + 1}) == fdp[level].visited.end())
                 {
-                    fdp[level].path.push_front(std::pair<int, int> {x, y + 1});
-                    fdp[level].visited.push_front(std::pair<int, int> {x, y + 1});
-                    fdp[level].directions.push_front('l');
-                    //maze[x][y].tipo = Cell::type::free;
-                    //maze[x][y + 1].tipo = Cell::type::snake_head;
-                    maze[fdp[level].body.back().first][fdp[level].body.back().second].tipo = Cell::type::free;
-                    return;
+                    if( (abs(x_food_coord - (x)) + abs(y_food_coord - (y + 1) ) ) < menor_val)
+                    {
+                        menor_id = 3;
+                        menor_val = (abs(x_food_coord - (x)) + abs(y_food_coord - (y + 1) ) );
+                    }
                 }
             }
         }
@@ -363,13 +353,11 @@ void game::move_snake(Grid & maze, size_t x, size_t y, char dir)
             {
                 if(std::find(fdp[level].visited.begin(), fdp[level].visited.end(), std::pair<int, int> {x - 1, y}) == fdp[level].visited.end())
                 {
-                    fdp[level].path.push_front(std::pair<int, int> {x-1, y});
-                    fdp[level].visited.push_front(std::pair<int, int> {x-1, y});
-                    fdp[level].directions.push_front('n');
-                    //maze[x][y].tipo = Cell::type::free;
-                    //maze[x - 1][y].tipo = Cell::type::snake_head;
-                    maze[fdp[level].body.back().first][fdp[level].body.back().second].tipo = Cell::type::free;
-                    return;
+                    if( (abs(x_food_coord - (x - 1)) + abs(y_food_coord - y) ) < menor_val)
+                    {
+                        menor_id = 1;
+                        menor_val = (abs(x_food_coord - (x - 1)) + abs(y_food_coord - y) );
+                    }
                 }
             }
 
@@ -381,13 +369,11 @@ void game::move_snake(Grid & maze, size_t x, size_t y, char dir)
             {
                 if(std::find(fdp[level].visited.begin(), fdp[level].visited.end(), std::pair<int, int> {x + 1, y}) == fdp[level].visited.end())
                 {
-                    fdp[level].path.push_front(std::pair<int, int> {x+1, y});
-                    fdp[level].visited.push_front(std::pair<int, int> {x+1, y});
-                    fdp[level].directions.push_front('s');
-                    //maze[x][y].tipo = Cell::type::free;
-                    //maze[x + 1][y].tipo = Cell::type::snake_head;
-                    maze[fdp[level].body.back().first][fdp[level].body.back().second].tipo = Cell::type::free;
-                    return;
+                    if( (abs(x_food_coord - (x + 1)) + abs(y_food_coord - y) ) < menor_val)
+                    {
+                        menor_id = 2;
+                        menor_val = (abs(x_food_coord - (x + 1)) + abs(y_food_coord - y) );
+                    }
                 }
             }
 
@@ -402,13 +388,11 @@ void game::move_snake(Grid & maze, size_t x, size_t y, char dir)
             {
                 if(std::find(fdp[level].visited.begin(), fdp[level].visited.end(), std::pair<int, int> {x, y - 1}) == fdp[level].visited.end())
                 {
-                    fdp[level].path.push_front(std::pair<int, int> {x, y - 1});
-                    fdp[level].visited.push_front(std::pair<int, int> {x, y - 1});
-                    fdp[level].directions.push_front('o');
-                    //maze[x][y].tipo = Cell::type::free;
-                    //maze[x][y - 1].tipo = Cell::type::snake_head;
-                    maze[fdp[level].body.back().first][fdp[level].body.back().second].tipo = Cell::type::free;
-                    return;
+                    if( (abs(x_food_coord - (x)) + abs(y_food_coord - (y - 1) ) ) < menor_val)
+                    {
+                        menor_id = 4;
+                        menor_val = (abs(x_food_coord - (x)) + abs(y_food_coord - (y - 1) ) );
+                    }
                 }
             }
         }
@@ -419,13 +403,11 @@ void game::move_snake(Grid & maze, size_t x, size_t y, char dir)
             {
                 if(std::find(fdp[level].visited.begin(), fdp[level].visited.end(), std::pair<int, int> {x - 1, y}) == fdp[level].visited.end())
                 {
-                    fdp[level].path.push_front(std::pair<int, int> {x-1, y});
-                    fdp[level].visited.push_front(std::pair<int, int> {x-1, y});
-                    fdp[level].directions.push_front('n');
-                    //maze[x][y].tipo = Cell::type::free;
-                    //maze[x - 1][y].tipo = Cell::type::snake_head;
-                    maze[fdp[level].body.back().first][fdp[level].body.back().second].tipo = Cell::type::free;
-                    return;
+                    if( (abs(x_food_coord - (x - 1)) + abs(y_food_coord - y) ) < menor_val)
+                    {
+                        menor_id = 1;
+                        menor_val = (abs(x_food_coord - (x - 1)) + abs(y_food_coord - y) );
+                    }
                 }
             }
 
@@ -437,17 +419,51 @@ void game::move_snake(Grid & maze, size_t x, size_t y, char dir)
             {
                 if(std::find(fdp[level].visited.begin(), fdp[level].visited.end(), std::pair<int, int> {x + 1, y}) == fdp[level].visited.end())
                 {
-                    fdp[level].path.push_front(std::pair<int, int> {x+1, y});
-                    fdp[level].visited.push_front(std::pair<int, int> {x+1, y});
-                    fdp[level].directions.push_front('s');
-                    //maze[x][y].tipo = Cell::type::free;
-                    //maze[x + 1][y].tipo = Cell::type::snake_head;
-                    maze[fdp[level].body.back().first][fdp[level].body.back().second].tipo = Cell::type::free;
-                    return;
+                    if( (abs(x_food_coord - (x + 1)) + abs(y_food_coord - y) ) < menor_val)
+                    {
+                        menor_id = 2;
+                        menor_val = (abs(x_food_coord - (x + 1)) + abs(y_food_coord - y) );
+                    }
                 }
             }
 
         }
+    }
+
+    if(menor_id == 1)
+    {
+        fdp[level].path.push_front(std::pair<int, int> {x-1, y});
+        fdp[level].visited.push_front(std::pair<int, int> {x-1, y});
+        fdp[level].directions.push_front('n');
+        maze[fdp[level].body.back().first][fdp[level].body.back().second].tipo = Cell::type::free;
+        return;
+    }
+
+    else if(menor_id == 2)
+    {
+        fdp[level].path.push_front(std::pair<int, int> {x+1, y});
+        fdp[level].visited.push_front(std::pair<int, int> {x+1, y});
+        fdp[level].directions.push_front('s');
+        maze[fdp[level].body.back().first][fdp[level].body.back().second].tipo = Cell::type::free;
+        return;
+    }
+
+    else if (menor_id == 3)
+    {
+        fdp[level].path.push_front(std::pair<int, int> {x, y + 1});
+        fdp[level].visited.push_front(std::pair<int, int> {x, y + 1});
+        fdp[level].directions.push_front('l');
+        maze[fdp[level].body.back().first][fdp[level].body.back().second].tipo = Cell::type::free;
+        return;
+    }
+
+    else if(menor_id == 4)
+    {
+        fdp[level].path.push_front(std::pair<int, int> {x, y - 1});
+        fdp[level].visited.push_front(std::pair<int, int> {x, y - 1});
+        fdp[level].directions.push_front('o');
+        maze[fdp[level].body.back().first][fdp[level].body.back().second].tipo = Cell::type::free;
+        return;
     }
 }
 
